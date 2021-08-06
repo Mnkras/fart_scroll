@@ -16,9 +16,15 @@ class FartScrollPackage extends Package {
 	}
 
 	public function on_start() {
-		$v = View::getInstance();
-		$v->addFooterItem(Loader::helper('html')->javascript('fartscroll.js', $this->pkgHandle));
-		$v->addFooterItem('<script type="text/javascript">$(document).fartscroll();</script>');
+		$req = Request::get();
+		$cID = $req->getRequestCollectionID();
+		$page = Page::getByID($cID);
+		$path = $page->getCollectionPath();
+		if($path == '/fartscroll') {
+			$v = View::getInstance();
+			$v->addFooterItem(Loader::helper('html')->javascript('fartscroll.js', $this->pkgHandle));
+			$v->addFooterItem('<script type="text/javascript">$(document).fartscroll();</script>');
+		}
 	}
 
 	public function install() {
